@@ -8,12 +8,6 @@ public class ShoppingItem implements Basketable {
     this.price = price;
   }
 
-  public ShoppingItem(String name, int price, boolean bogof) {
-    this.name = name;
-    this.price = price;
-    this.bogof = bogof;
-  }
-
   public String getName() {
     return name;
   }
@@ -24,5 +18,9 @@ public class ShoppingItem implements Basketable {
 
   public boolean getBogof() {
     return bogof;
+  }
+
+  public void setBogof(boolean bogof) {
+    this.bogof = bogof;
   }
 }

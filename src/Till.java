@@ -2,21 +2,30 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Till {
-  public static int total(ArrayList<Basketable> items, LoyaltyCard loyaltyCard) {
-    int total = 0;
+  private static int total;
+  private static ArrayList<Basketable> items;
+  private static LoyaltyCard loyaltyCard;
+
+  public static int totalAfterDiscounts(ArrayList<Basketable> basket, LoyaltyCard card) {
+    total = 0;
+    items = basket;
+    loyaltyCard = card;
+
     for (Basketable item : items) {
       total += item.getPrice();
     }
-    return applyDiscounts(total, items, loyaltyCard);
+
+    applyDiscounts();
+    return total;
   }
 
-  private static int applyDiscounts(int total, ArrayList<Basketable> items, LoyaltyCard loyaltyCard) {
-    total = applyBogof(total, items);
-    total = apply10PercentOff(total);
-    return applyLoyaltyDiscount(total, loyaltyCard);
+  private static void applyDiscounts() {
+    applyBogof();
+    apply10PercentOff();
+    applyLoyaltyDiscount();
   }
 
-  private static int applyBogof(int total, ArrayList<Basketable> items) {
+  private static void applyBogof() {
     HashMap<Basketable, Integer> itemCount = new HashMap<>();
 
     for (Basketable item : items) {
@@ -27,20 +36,17 @@ public class Till {
         itemCount.replace(item, 0);
       }
     }
-    return total;
   }
 
-  private static int apply10PercentOff(int total) {
+  private static void apply10PercentOff() {
     if (total > 2000) {
       total *= 0.9;
     }
-    return total;
   }
 
-  private static int applyLoyaltyDiscount(int total, LoyaltyCard loyaltyCard) {
+  private static void applyLoyaltyDiscount() {
     if (loyaltyCard != null && loyaltyCard.isCardValid()) {
       total *= 0.98;
     }
-    return total;
   }
 }

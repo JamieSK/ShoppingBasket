@@ -18,7 +18,8 @@ public class ShoppingBasketTest {
     loyalShopper = new Shopper(basket, loyaltyCard);
     cheapItem = new ShoppingItem("Cheap thing", 200);
     expensiveItem = new ShoppingItem("Expensive thing", 3000);
-    bogofItem = new ShoppingItem("Bogof thing", 500, true);
+    bogofItem = new ShoppingItem("Bogof thing", 500);
+    bogofItem.setBogof(true);
   }
 
   @Test
@@ -55,14 +56,14 @@ public class ShoppingBasketTest {
   @Test
   public void canTotalBasket() {
     shopper.addToBasket(cheapItem);
-    assertEquals(200, Till.total(shopper.getItems(), shopper.getLoyaltyCard()));
+    assertEquals(200, Till.totalAfterDiscounts(shopper.getItems(), shopper.getLoyaltyCard()));
   }
 
   @Test
   public void canBogof() {
     shopper.addToBasket(bogofItem);
     shopper.addToBasket(bogofItem);
-    assertEquals(500, Till.total(shopper.getItems(), shopper.getLoyaltyCard()));
+    assertEquals(500, Till.totalAfterDiscounts(shopper.getItems(), shopper.getLoyaltyCard()));
   }
 
   @Test
@@ -70,19 +71,19 @@ public class ShoppingBasketTest {
     shopper.addToBasket(bogofItem);
     shopper.addToBasket(bogofItem);
     shopper.addToBasket(bogofItem);
-    assertEquals(1000, Till.total(shopper.getItems(), shopper.getLoyaltyCard()));
+    assertEquals(1000, Till.totalAfterDiscounts(shopper.getItems(), shopper.getLoyaltyCard()));
   }
 
   @Test
   public void canGet10PercentOffOver20() {
     shopper.addToBasket(expensiveItem);
-    assertEquals(2700, Till.total(shopper.getItems(), shopper.getLoyaltyCard()));
+    assertEquals(2700, Till.totalAfterDiscounts(shopper.getItems(), shopper.getLoyaltyCard()));
   }
 
   @Test
   public void canGetLoyaltyDiscount() {
     loyalShopper.addToBasket(bogofItem);
-    assertEquals(490, Till.total(loyalShopper.getItems(), loyalShopper.getLoyaltyCard()));
+    assertEquals(490, Till.totalAfterDiscounts(loyalShopper.getItems(), loyalShopper.getLoyaltyCard()));
   }
 
   @Test
@@ -90,7 +91,7 @@ public class ShoppingBasketTest {
     loyalShopper.addToBasket(bogofItem);
     loyalShopper.addToBasket(cheapItem);
     loyalShopper.addToBasket(bogofItem);
-    assertEquals(686, Till.total(loyalShopper.getItems(), loyalShopper.getLoyaltyCard()));
+    assertEquals(686, Till.totalAfterDiscounts(loyalShopper.getItems(), loyalShopper.getLoyaltyCard()));
   }
 
   @Test
